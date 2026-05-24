@@ -1,0 +1,7 @@
+# If Vercel project Root Directory is set to `frontend/`,
+# this ignore file is still used for the frontend build context.
+
+../backend
+../backend/**
+../dev.db
+

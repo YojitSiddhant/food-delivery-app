@@ -1,8 +1,14 @@
 import axios from "axios";
 
+const normalizeBaseUrl = (value) => {
+  if (!value) return null;
+  const trimmed = value.replace(/\/+$/, "");
+  return trimmed.endsWith("/api") ? trimmed : `${trimmed}/api`;
+};
+
 const API = axios.create({
   baseURL:
-    process.env.NEXT_PUBLIC_API_BASE_URL ||
+    normalizeBaseUrl(process.env.NEXT_PUBLIC_API_BASE_URL) ||
     "https://food-delivery-backend-y4e1.onrender.com/api",
 });
 
