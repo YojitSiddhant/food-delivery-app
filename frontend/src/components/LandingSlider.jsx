@@ -8,6 +8,9 @@ export default function LandingSlider() {
   const slides = useMemo(
     () => [
       {
+        type: "video",
+        video:
+          "https://cdn.coverr.co/videos/coverr-making-pizza-2190/1080p.mp4",
         image:
           "https://images.unsplash.com/photo-1521305916504-4a1121188589?auto=format&fit=crop&w=2000&q=80",
         badge: "FoodieHub",
@@ -16,6 +19,7 @@ export default function LandingSlider() {
           "Discover top-rated dishes and get them delivered to your doorstep in minutes.",
       },
       {
+        type: "image",
         image:
           "https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&w=2000&q=80",
         badge: "Trusted Partners",
@@ -24,6 +28,9 @@ export default function LandingSlider() {
           "We partner with quality kitchens so every bite tastes just right.",
       },
       {
+        type: "video",
+        video:
+          "https://cdn.coverr.co/videos/coverr-burger-on-a-grill-3467/1080p.mp4",
         image:
           "https://images.unsplash.com/photo-1526367790999-0150786686a2?auto=format&fit=crop&w=2000&q=80",
         badge: "Live Updates",
@@ -37,14 +44,28 @@ export default function LandingSlider() {
 
   const [active, setActive] = useState(0);
   const total = slides.length;
+  const [reduceMotion, setReduceMotion] =
+    useState(false);
 
   useEffect(() => {
+    const media = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    );
+    const onChange = () => setReduceMotion(media.matches);
+    onChange();
+    media.addEventListener?.("change", onChange);
+    return () =>
+      media.removeEventListener?.("change", onChange);
+  }, []);
+
+  useEffect(() => {
+    if (reduceMotion) return;
     const id = window.setInterval(() => {
       setActive((prev) => (prev + 1) % total);
     }, 5000);
 
     return () => window.clearInterval(id);
-  }, [total]);
+  }, [reduceMotion, total]);
 
   const goTo = (index) => {
     setActive(((index % total) + total) % total);
@@ -63,14 +84,39 @@ export default function LandingSlider() {
               ].join(" ")}
               aria-hidden={idx !== active}
             >
-              <Image
-                src={slide.image}
-                alt={slide.title}
-                fill
-                priority={idx === 0}
-                sizes="(max-width: 768px) 100vw, 1200px"
-                className="object-cover"
-              />
+              {slide.type === "video" ? (
+                <>
+                  <video
+                    className="absolute inset-0 h-full w-full object-cover"
+                    autoPlay={!reduceMotion}
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                  >
+                    <source src={slide.video} type="video/mp4" />
+                  </video>
+                  <div className="absolute inset-0 opacity-0">
+                    <Image
+                      src={slide.image}
+                      alt={slide.title}
+                      fill
+                      priority={idx === 0}
+                      sizes="100vw"
+                      className="object-cover"
+                    />
+                  </div>
+                </>
+              ) : (
+                <Image
+                  src={slide.image}
+                  alt={slide.title}
+                  fill
+                  priority={idx === 0}
+                  sizes="100vw"
+                  className="object-cover"
+                />
+              )}
               <div className="absolute inset-0 bg-black/55" />
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(249,115,22,0.22),transparent_55%)]" />
             </div>
