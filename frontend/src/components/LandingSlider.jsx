@@ -8,35 +8,69 @@ export default function LandingSlider() {
   const slides = useMemo(
     () => [
       {
-        type: "video",
-        video:
-          "https://cdn.coverr.co/videos/coverr-making-pizza-2190/1080p.mp4",
         image:
           "https://images.unsplash.com/photo-1521305916504-4a1121188589?auto=format&fit=crop&w=2000&q=80",
         badge: "FoodieHub",
         title: "Delicious Food, Delivered Fast",
         subtitle:
           "Discover top-rated dishes and get them delivered to your doorstep in minutes.",
+        points: [
+          "Fresh meals from nearby kitchens",
+          "Fast delivery with live updates",
+          "Simple, secure checkout",
+        ],
       },
       {
-        type: "image",
         image:
           "https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&w=2000&q=80",
         badge: "Trusted Partners",
         title: "Curated Restaurants Near You",
         subtitle:
           "We partner with quality kitchens so every bite tastes just right.",
+        points: [
+          "Verified restaurant partners",
+          "Consistent quality & packaging",
+          "Wide variety of cuisines",
+        ],
       },
       {
-        type: "video",
-        video:
-          "https://cdn.coverr.co/videos/coverr-burger-on-a-grill-3467/1080p.mp4",
         image:
           "https://images.unsplash.com/photo-1526367790999-0150786686a2?auto=format&fit=crop&w=2000&q=80",
         badge: "Live Updates",
         title: "Track Your Order, Anytime",
         subtitle:
           "Stay updated from kitchen to your door with a smooth, reliable experience.",
+        points: [
+          "Real-time order status",
+          "Accurate delivery ETAs",
+          "Support when you need it",
+        ],
+      },
+      {
+        image:
+          "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=2000&q=80",
+        badge: "Exclusive Offers",
+        title: "Deals That Make You Smile",
+        subtitle:
+          "Save more with special discounts, bundles, and limited-time offers.",
+        points: [
+          "Seasonal discounts",
+          "Combo meals & bundles",
+          "Best value picks",
+        ],
+      },
+      {
+        image:
+          "https://images.unsplash.com/photo-1466637574441-749b8f19452f?auto=format&fit=crop&w=2000&q=80",
+        badge: "For Everyone",
+        title: "Veg, Non‑Veg & More",
+        subtitle:
+          "From comfort food to healthy bowls — find something perfect for every mood.",
+        points: [
+          "Filters for quick discovery",
+          "Clear item descriptions",
+          "Great taste, every time",
+        ],
       },
     ],
     []
@@ -44,8 +78,7 @@ export default function LandingSlider() {
 
   const [active, setActive] = useState(0);
   const total = slides.length;
-  const [reduceMotion, setReduceMotion] =
-    useState(false);
+  const [reduceMotion, setReduceMotion] = useState(false);
 
   useEffect(() => {
     const media = window.matchMedia(
@@ -84,39 +117,14 @@ export default function LandingSlider() {
               ].join(" ")}
               aria-hidden={idx !== active}
             >
-              {slide.type === "video" ? (
-                <>
-                  <video
-                    className="absolute inset-0 h-full w-full object-cover"
-                    autoPlay={!reduceMotion}
-                    muted
-                    loop
-                    playsInline
-                    preload="metadata"
-                  >
-                    <source src={slide.video} type="video/mp4" />
-                  </video>
-                  <div className="absolute inset-0 opacity-0">
-                    <Image
-                      src={slide.image}
-                      alt={slide.title}
-                      fill
-                      priority={idx === 0}
-                      sizes="100vw"
-                      className="object-cover"
-                    />
-                  </div>
-                </>
-              ) : (
-                <Image
-                  src={slide.image}
-                  alt={slide.title}
-                  fill
-                  priority={idx === 0}
-                  sizes="100vw"
-                  className="object-cover"
-                />
-              )}
+              <Image
+                src={slide.image}
+                alt={slide.title}
+                fill
+                priority={idx === 0}
+                sizes="100vw"
+                className="object-cover"
+              />
               <div className="absolute inset-0 bg-black/55" />
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(249,115,22,0.22),transparent_55%)]" />
             </div>
@@ -136,6 +144,20 @@ export default function LandingSlider() {
                 <p className="mt-4 text-lg text-white/80 sm:text-xl">
                   {slides[active].subtitle}
                 </p>
+
+                {slides[active].points?.length ? (
+                  <ul className="mt-5 grid gap-2 text-white/80 sm:grid-cols-2">
+                    {slides[active].points.map((p) => (
+                      <li
+                        key={p}
+                        className="flex items-start gap-2 text-sm sm:text-base"
+                      >
+                        <span className="mt-1 inline-block h-2 w-2 shrink-0 rounded-full bg-orange-500" />
+                        <span>{p}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
 
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
                   <Link
