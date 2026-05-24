@@ -6,11 +6,14 @@ import Navbar from "../components/Navbar";
 import FoodCard from "../components/FoodCard";
 import SearchBar from "../components/SearchBar";
 import CategoryFilter from "../components/CategoryFilter";
+import LoginRequired from "../components/LoginRequired";
 
 import dummyFoods from "../utils/dummyFoods";
 import Footer from "../components/Footer";
+import { useAuth } from "../hooks/useAuth";
 
 export default function Home() {
+  const { isLoggedIn } = useAuth();
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] =
     useState("All");
@@ -45,27 +48,31 @@ export default function Home() {
         </button>
       </section>
 
-      <section className="max-w-7xl mx-auto px-6 py-16">
-        <h2 className="text-3xl font-bold mb-10 text-gray-800">
-          Popular Dishes
-        </h2>
+      {isLoggedIn ? (
+        <section className="max-w-7xl mx-auto px-6 py-16">
+          <h2 className="text-3xl font-bold mb-10 text-gray-800">
+            Popular Dishes
+          </h2>
 
-        <SearchBar
-          search={search}
-          setSearch={setSearch}
-        />
+          <SearchBar
+            search={search}
+            setSearch={setSearch}
+          />
 
-        <CategoryFilter
-          selectedCategory={selectedCategory}
-          setSelectedCategory={setSelectedCategory}
-        />
+          <CategoryFilter
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+          />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-          {filteredFoods.map((food) => (
-            <FoodCard key={food.id} food={food} />
-          ))}
-        </div>
-      </section>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            {filteredFoods.map((food) => (
+              <FoodCard key={food.id} food={food} />
+            ))}
+          </div>
+        </section>
+      ) : (
+        <LoginRequired />
+      )}
       <Footer />
     </div>
   );

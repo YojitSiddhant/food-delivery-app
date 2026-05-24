@@ -28,6 +28,7 @@ export default function SignupPage() {
         "userInfo",
         JSON.stringify(data)
       );
+      window.dispatchEvent(new Event("auth:changed"));
 
       alert("Signup Successful");
 

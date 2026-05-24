@@ -26,6 +26,7 @@ export default function LoginPage() {
         "userInfo",
         JSON.stringify(data)
       );
+      window.dispatchEvent(new Event("auth:changed"));
 
       alert("Login Successful");
 

@@ -1,57 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ShoppingCart } from "lucide-react";
 
 import { useCart } from "../context/CartContext";
+import { useAuth } from "../hooks/useAuth";
 
 const Navbar = () => {
   const { cartItems } = useCart();
-  const [isLoggedIn, setIsLoggedIn] = useState(
-    () => {
-      if (typeof window === "undefined") {
-        return false;
-      }
-
-      const userInfoRaw =
-        localStorage.getItem("userInfo");
-      if (!userInfoRaw) return false;
-
-      try {
-        return Boolean(
-          JSON.parse(userInfoRaw)?.token
-        );
-      } catch {
-        return false;
-      }
-    }
-  );
-
-  useEffect(() => {
-    const checkLogin = () => {
-      const userInfoRaw =
-        localStorage.getItem("userInfo");
-
-      if (!userInfoRaw) {
-        setIsLoggedIn(false);
-        return;
-      }
-
-      try {
-        const token = JSON.parse(userInfoRaw)?.token;
-        setIsLoggedIn(Boolean(token));
-      } catch {
-        setIsLoggedIn(false);
-      }
-    };
-
-    checkLogin();
-    window.addEventListener("storage", checkLogin);
-    return () => {
-      window.removeEventListener("storage", checkLogin);
-    };
-  }, []);
+  const { isLoggedIn } = useAuth();
 
   const totalItems = cartItems.reduce(
     (acc, item) => acc + item.quantity,

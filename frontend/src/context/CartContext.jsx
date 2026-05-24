@@ -6,6 +6,7 @@ import {
   useState,
 } from "react";
 import toast from "react-hot-toast";
+import { getAuthToken } from "../utils/auth";
 
 const CartContext = createContext();
 
@@ -13,20 +14,7 @@ export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
 
   const addToCart = (food) => {
-    const userInfoRaw =
-      typeof window !== "undefined"
-        ? localStorage.getItem("userInfo")
-        : null;
-
-    let token = null;
-    if (userInfoRaw) {
-      try {
-        token = JSON.parse(userInfoRaw)?.token;
-      } catch {
-        token = null;
-      }
-    }
-
+    const token = getAuthToken();
     if (!token) {
       toast.error("Please login first");
       return;
