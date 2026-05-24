@@ -27,7 +27,7 @@ const Navbar = () => {
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-6">
           <Link
-            href="/"
+            href={isLoggedIn ? "/home" : "/"}
             className="hover:text-orange-400 transition"
           >
             Home

@@ -149,7 +149,7 @@ export default function SignupPage() {
       window.dispatchEvent(new Event("auth:changed"));
 
       toast.success("Account created successfully");
-      router.push("/");
+      router.push("/home");
     } catch (error) {
       const data = error.response?.data;
       const message =

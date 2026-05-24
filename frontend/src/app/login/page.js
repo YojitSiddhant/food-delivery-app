@@ -67,7 +67,7 @@ export default function LoginPage() {
       window.dispatchEvent(new Event("auth:changed"));
 
       toast.success("Login successful");
-      router.push("/");
+      router.push("/home");
     } catch (error) {
       const status = error.response?.status;
       const message =
