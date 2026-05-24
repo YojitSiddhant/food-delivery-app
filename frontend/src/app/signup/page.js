@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
-import API from "../../services/api";
+import { localSignup } from "../../utils/localAuth";
 
 const EMAIL_REGEX =
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -133,14 +133,11 @@ export default function SignupPage() {
 
     try {
       setIsLoading(true);
-      const { data } = await API.post(
-        "/auth/signup",
-        {
-          name: name.trim(),
-          email: email.trim(),
-          password,
-        }
-      );
+      const data = localSignup({
+        name: name.trim(),
+        email: email.trim(),
+        password,
+      });
 
       localStorage.setItem(
         "userInfo",
@@ -151,12 +148,7 @@ export default function SignupPage() {
       toast.success("Account created successfully");
       router.push("/home");
     } catch (error) {
-      const data = error.response?.data;
-      const message =
-        (Array.isArray(data?.errors) && data.errors[0]) ||
-        data?.message ||
-        "Signup Failed";
-      toast.error(message);
+      toast.error(error?.message || "Signup Failed");
     } finally {
       setIsLoading(false);
     }

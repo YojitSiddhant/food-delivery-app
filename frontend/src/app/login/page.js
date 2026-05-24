@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
-import API from "../../services/api";
+import { localLogin } from "../../utils/localAuth";
 
 const EMAIL_REGEX =
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -52,13 +52,10 @@ export default function LoginPage() {
 
     try {
       setIsLoading(true);
-      const { data } = await API.post(
-        "/auth/login",
-        {
-          email: email.trim(),
-          password,
-        }
-      );
+      const data = localLogin({
+        email: email.trim(),
+        password,
+      });
 
       localStorage.setItem(
         "userInfo",
@@ -69,13 +66,7 @@ export default function LoginPage() {
       toast.success("Login successful");
       router.push("/home");
     } catch (error) {
-      const status = error.response?.status;
-      const message =
-        status === 401
-          ? "Invalid credentials"
-          : error.response?.data?.message ||
-            "Login Failed";
-      toast.error(message);
+      toast.error(error?.message || "Login Failed");
     } finally {
       setIsLoading(false);
     }
