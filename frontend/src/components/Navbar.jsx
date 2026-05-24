@@ -13,7 +13,8 @@ const Navbar = () => {
   const { cartItems } = useCart();
   const { isLoggedIn, userInfo } = useAuth();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const profileRef = useRef(null);
+  const desktopProfileRef = useRef(null);
+  const mobileProfileRef = useRef(null);
 
   const totalItems = cartItems.reduce(
     (acc, item) => acc + item.quantity,
@@ -24,8 +25,13 @@ const Navbar = () => {
     if (!isProfileOpen) return;
 
     const onPointerDown = (e) => {
-      if (!profileRef.current) return;
-      if (!profileRef.current.contains(e.target)) {
+      const target = e.target;
+      const isInsideDesktop =
+        desktopProfileRef.current?.contains(target) || false;
+      const isInsideMobile =
+        mobileProfileRef.current?.contains(target) || false;
+
+      if (!isInsideDesktop && !isInsideMobile) {
         setIsProfileOpen(false);
       }
     };
@@ -95,7 +101,7 @@ const Navbar = () => {
           </Link>
 
           {isLoggedIn ? (
-            <div className="relative" ref={profileRef}>
+            <div className="relative" ref={desktopProfileRef}>
               <button
                 type="button"
                 onClick={() => setIsProfileOpen((v) => !v)}
@@ -133,7 +139,7 @@ const Navbar = () => {
         {/* Mobile Menu */}
         <div className="md:hidden flex items-center gap-3">
           {isLoggedIn ? (
-            <div className="relative" ref={profileRef}>
+            <div className="relative" ref={mobileProfileRef}>
               <button
                 type="button"
                 onClick={() => setIsProfileOpen((v) => !v)}
