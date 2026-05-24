@@ -31,7 +31,12 @@ export default function Home() {
   });
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div
+      className={[
+        "min-h-screen",
+        isLoggedIn ? "bg-gray-100" : "bg-black",
+      ].join(" ")}
+    >
       <Navbar />
 
       {isLoggedIn ? (
@@ -75,7 +80,7 @@ export default function Home() {
       ) : (
         <LandingSlider />
       )}
-      <Footer />
+      {isLoggedIn ? <Footer /> : null}
     </div>
   );
 }

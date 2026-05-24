@@ -51,9 +51,9 @@ export default function LandingSlider() {
   };
 
   return (
-    <section className="max-w-7xl mx-auto px-6 py-10 sm:py-14">
-      <div className="relative overflow-hidden rounded-3xl bg-black shadow-xl">
-        <div className="relative h-[520px] w-full sm:h-[560px]">
+    <section className="w-full">
+      <div className="relative overflow-hidden bg-black">
+        <div className="relative h-[calc(100vh-72px)] w-full min-h-[520px] sm:min-h-[560px]">
           {slides.map((slide, idx) => (
             <div
               key={slide.title}
@@ -152,4 +152,3 @@ export default function LandingSlider() {
     </section>
   );
 }
-
