@@ -1,8 +1,13 @@
 const { PrismaClient } = require("../generated/prisma");
 
 if (!process.env.DATABASE_URL) {
-  // Fallback for environments where DATABASE_URL isn't set.
-  // For SQLite, Prisma expects a url like: file:./dev.db
+  if (process.env.NODE_ENV === "production") {
+    throw new Error(
+      "DATABASE_URL is required in production. Set it to a persistent database (e.g. a managed DB, or a persisted SQLite file path)."
+    );
+  }
+
+  // Dev fallback (SQLite): Prisma expects a url like file:./dev.db
   process.env.DATABASE_URL = "file:./dev.db";
 }
 

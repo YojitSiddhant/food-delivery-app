@@ -31,7 +31,7 @@ const validatePasswordStrength = (password) => {
 };
 
 const pickAuthLoginBody = (body = {}) => ({
-  email: normalizeString(body.email),
+  email: normalizeString(body.email).toLowerCase(),
   password:
     typeof body.password === "string"
       ? body.password
@@ -40,7 +40,7 @@ const pickAuthLoginBody = (body = {}) => ({
 
 const pickAuthSignupBody = (body = {}) => ({
   name: normalizeString(body.name),
-  email: normalizeString(body.email),
+  email: normalizeString(body.email).toLowerCase(),
   password:
     typeof body.password === "string"
       ? body.password
@@ -55,4 +55,3 @@ module.exports = {
   pickAuthLoginBody,
   pickAuthSignupBody,
 };
-
