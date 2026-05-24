@@ -5,6 +5,7 @@ import {
   useContext,
   useState,
 } from "react";
+import toast from "react-hot-toast";
 
 const CartContext = createContext();
 
@@ -12,6 +13,25 @@ export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
 
   const addToCart = (food) => {
+    const userInfoRaw =
+      typeof window !== "undefined"
+        ? localStorage.getItem("userInfo")
+        : null;
+
+    let token = null;
+    if (userInfoRaw) {
+      try {
+        token = JSON.parse(userInfoRaw)?.token;
+      } catch {
+        token = null;
+      }
+    }
+
+    if (!token) {
+      toast.error("Please login first");
+      return;
+    }
+
     const existingItem = cartItems.find(
       (item) => item.id === food.id
     );
@@ -36,6 +56,8 @@ export const CartProvider = ({ children }) => {
         },
       ]);
     }
+
+    toast.success("Item added to cart");
   };
 
   const removeFromCart = (id) => {

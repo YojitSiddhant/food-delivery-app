@@ -1,6 +1,6 @@
 import "./globals.css";
 
-import { CartProvider } from "../context/CartContext";
+import Providers from "../components/Providers";
 
 export const metadata = {
   title: "Food Delivery App",
@@ -13,9 +13,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <CartProvider>
-          {children}
-        </CartProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
