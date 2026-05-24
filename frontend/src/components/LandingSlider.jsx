@@ -132,21 +132,21 @@ export default function LandingSlider() {
 
           <div className="absolute inset-0 flex items-center">
             <div className="w-full px-6 sm:px-10 lg:px-14">
-              <div className="fade-in-up max-w-2xl">
+              <div key={active} className="max-w-2xl">
                 <div className="inline-flex items-center rounded-full bg-white/10 px-4 py-1.5 text-sm font-semibold text-white backdrop-blur">
                   {slides[active].badge}
                 </div>
 
-                <h1 className="mt-5 text-4xl font-bold tracking-tight text-white sm:text-5xl">
+                <h1 className="slide-title-in mt-5 text-4xl font-bold tracking-tight text-white sm:text-5xl">
                   {slides[active].title}
                 </h1>
 
-                <p className="mt-4 text-lg text-white/80 sm:text-xl">
+                <p className="slide-subtitle-in mt-4 text-lg text-white/80 sm:text-xl">
                   {slides[active].subtitle}
                 </p>
 
                 {slides[active].points?.length ? (
-                  <ul className="mt-5 flex flex-col gap-2 text-white/80">
+                  <ul className="slide-points-in mt-5 flex flex-col gap-2 text-white/80">
                     {slides[active].points.map((p) => (
                       <li
                         key={p}
