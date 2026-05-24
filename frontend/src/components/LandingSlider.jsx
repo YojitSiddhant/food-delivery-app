@@ -146,7 +146,7 @@ export default function LandingSlider() {
                 </p>
 
                 {slides[active].points?.length ? (
-                  <ul className="mt-5 grid gap-2 text-white/80 sm:grid-cols-2">
+                  <ul className="mt-5 flex flex-col gap-2 text-white/80">
                     {slides[active].points.map((p) => (
                       <li
                         key={p}
