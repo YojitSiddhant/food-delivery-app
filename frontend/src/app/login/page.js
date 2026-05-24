@@ -1,23 +1,61 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 import API from "../../services/api";
 
+const EMAIL_REGEX =
+  /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 export default function LoginPage() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
-  const [password, setPassword] =
-    useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] =
+    useState(false);
+  const [isLoading, setIsLoading] =
+    useState(false);
+  const [touched, setTouched] = useState({
+    email: false,
+    password: false,
+  });
+
+  const errors = useMemo(() => {
+    const next = {};
+
+    const emailValue = email.trim();
+    if (!emailValue) {
+      next.email = "Email is required";
+    } else if (!EMAIL_REGEX.test(emailValue)) {
+      next.email = "Enter a valid email";
+    }
+
+    if (!password) {
+      next.password = "Password is required";
+    } else if (password.length < 6) {
+      next.password =
+        "Password must be at least 6 characters";
+    }
+
+    return next;
+  }, [email, password]);
+
+  const isValid = Object.keys(errors).length === 0;
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setTouched({ email: true, password: true });
+    if (!isValid || isLoading) return;
 
     try {
+      setIsLoading(true);
       const { data } = await API.post(
         "/auth/login",
         {
-          email,
+          email: email.trim(),
           password,
         }
       );
@@ -28,16 +66,34 @@ export default function LoginPage() {
       );
       window.dispatchEvent(new Event("auth:changed"));
 
-      alert("Login Successful");
-
-      window.location.href = "/";
+      toast.success("Login successful");
+      router.push("/");
     } catch (error) {
-      alert(
-        error.response?.data?.message ||
-          "Login Failed"
-      );
+      const status = error.response?.status;
+      const message =
+        status === 401
+          ? "Invalid credentials"
+          : error.response?.data?.message ||
+            "Login Failed";
+      toast.error(message);
+    } finally {
+      setIsLoading(false);
     }
   };
+
+  const emailBorder =
+    touched.email && errors.email
+      ? "border-red-500 focus:ring-red-500"
+      : touched.email && !errors.email
+      ? "border-green-500 focus:ring-green-500"
+      : "border-white/15 focus:ring-orange-500";
+
+  const passwordBorder =
+    touched.password && errors.password
+      ? "border-red-500 focus:ring-red-500"
+      : touched.password && !errors.password
+      ? "border-green-500 focus:ring-green-500"
+      : "border-white/15 focus:ring-orange-500";
 
   return (
     <div className="relative min-h-screen bg-black px-6">
@@ -61,28 +117,103 @@ export default function LoginPage() {
             onSubmit={handleLogin}
             className="mt-8 space-y-5"
           >
-            <input
-              type="email"
-              placeholder="Enter email"
-              value={email}
-              onChange={(e) =>
-                setEmail(e.target.value)
-              }
-              className="w-full rounded-xl border border-white/15 bg-white/10 p-4 text-white outline-none placeholder:text-white/50 focus:ring-2 focus:ring-orange-500"
-            />
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-white/80">
+                Email
+              </label>
+              <input
+                type="email"
+                placeholder="Enter email"
+                value={email}
+                onChange={(e) =>
+                  setEmail(e.target.value)
+                }
+                onBlur={() =>
+                  setTouched((prev) => ({
+                    ...prev,
+                    email: true,
+                  }))
+                }
+                aria-invalid={Boolean(
+                  touched.email && errors.email
+                )}
+                className={[
+                  "w-full rounded-xl border bg-white/10 p-4 text-white outline-none placeholder:text-white/50 focus:ring-2 transition",
+                  emailBorder,
+                ].join(" ")}
+              />
+              {touched.email && errors.email ? (
+                <p className="text-sm text-red-400">
+                  {errors.email}
+                </p>
+              ) : null}
+            </div>
 
-            <input
-              type="password"
-              placeholder="Enter password"
-              value={password}
-              onChange={(e) =>
-                setPassword(e.target.value)
-              }
-              className="w-full rounded-xl border border-white/15 bg-white/10 p-4 text-white outline-none placeholder:text-white/50 focus:ring-2 focus:ring-orange-500"
-            />
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-white/80">
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Enter password"
+                  value={password}
+                  onChange={(e) =>
+                    setPassword(e.target.value)
+                  }
+                  onBlur={() =>
+                    setTouched((prev) => ({
+                      ...prev,
+                      password: true,
+                    }))
+                  }
+                  aria-invalid={Boolean(
+                    touched.password && errors.password
+                  )}
+                  className={[
+                    "w-full rounded-xl border bg-white/10 p-4 pr-20 text-white outline-none placeholder:text-white/50 focus:ring-2 transition",
+                    passwordBorder,
+                  ].join(" ")}
+                />
+                <button
+                  type="button"
+                  onClick={() =>
+                    setShowPassword((s) => !s)
+                  }
+                  className="absolute right-3 top-1/2 -translate-y-1/2 rounded-lg bg-white/10 px-3 py-1.5 text-sm font-semibold text-white/80 transition hover:bg-white/15"
+                  aria-label={
+                    showPassword
+                      ? "Hide password"
+                      : "Show password"
+                  }
+                >
+                  {showPassword ? "Hide" : "Show"}
+                </button>
+              </div>
+              {touched.password && errors.password ? (
+                <p className="text-sm text-red-400">
+                  {errors.password}
+                </p>
+              ) : null}
+            </div>
 
-            <button className="w-full bg-orange-500 text-white py-4 rounded-xl hover:bg-orange-600 transition font-semibold">
-              Login
+            <button
+              disabled={!isValid || isLoading}
+              className={[
+                "w-full rounded-xl bg-orange-500 py-4 font-semibold text-white transition",
+                !isValid || isLoading
+                  ? "opacity-60 cursor-not-allowed"
+                  : "hover:bg-orange-600",
+              ].join(" ")}
+            >
+              {isLoading ? (
+                <span className="inline-flex items-center justify-center gap-2">
+                  <span className="h-5 w-5 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                  Logging in...
+                </span>
+              ) : (
+                "Login"
+              )}
             </button>
           </form>
 
