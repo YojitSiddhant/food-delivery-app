@@ -175,8 +175,8 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="h-screen overflow-hidden bg-slate-950">
-      <div className="grid h-screen grid-cols-1 lg:grid-cols-2">
+    <div className="min-h-screen bg-slate-950 overscroll-none">
+      <div className="grid min-h-screen grid-cols-1 lg:grid-cols-2">
         <section className="relative hidden h-full overflow-hidden px-6 py-10 text-white lg:block lg:px-14 lg:py-14">
           <div className="pointer-events-none absolute inset-0">
             <div className="absolute -top-28 -left-28 h-80 w-80 rounded-full bg-orange-500/25 blur-3xl" />
@@ -285,7 +285,7 @@ export default function SignupPage() {
           </div>
         </section>
 
-        <section className="relative flex h-full items-center justify-center overflow-hidden bg-white px-6 py-0 lg:px-12">
+        <section className="relative flex items-start justify-center bg-white px-6 py-10 lg:items-center lg:px-12">
           <div className="pointer-events-none absolute inset-0">
             <div className="absolute -top-24 -right-24 h-72 w-72 rounded-full bg-orange-500/10 blur-3xl" />
             <div className="absolute -bottom-28 -left-24 h-80 w-80 rounded-full bg-slate-900/5 blur-3xl" />
