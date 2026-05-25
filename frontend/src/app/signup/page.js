@@ -151,7 +151,7 @@ export default function SignupPage() {
         password,
       });
 
-      localStorage.setItem(
+      sessionStorage.setItem(
         "userInfo",
         JSON.stringify(data)
       );

@@ -1,5 +1,7 @@
 import axios from "axios";
 
+import { getAuthToken } from "../utils/auth";
+
 const normalizeBaseUrl = (value) => {
   if (!value) return null;
   const trimmed = value.replace(/\/+$/, "");
@@ -15,17 +17,14 @@ const API = axios.create({
 API.interceptors.request.use((config) => {
   if (typeof window === "undefined") return config;
 
-  const raw = localStorage.getItem("userInfo");
-  if (!raw) return config;
-
   try {
-    const token = JSON.parse(raw)?.token;
+    const token = getAuthToken();
     if (token) {
       config.headers = config.headers || {};
       config.headers.Authorization = `Bearer ${token}`;
     }
   } catch {
-    // ignore malformed localStorage
+    // ignore auth parsing issues
   }
 
   return config;

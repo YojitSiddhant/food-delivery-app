@@ -50,6 +50,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     try {
+      sessionStorage.removeItem("userInfo");
       localStorage.removeItem("userInfo");
       window.dispatchEvent(new Event("auth:changed"));
     } finally {
@@ -84,21 +85,31 @@ const Navbar = () => {
               Orders
             </Link>
           ) : (
-            <Link
-              href="/login"
-              className="hover:text-orange-400 transition"
-            >
-              Login
-            </Link>
+            <>
+              <Link
+                href="/login"
+                className="hover:text-orange-400 transition"
+              >
+                Login
+              </Link>
+              <Link
+                href="/signup"
+                className="hover:text-orange-400 transition"
+              >
+                Register
+              </Link>
+            </>
           )}
 
-          <Link href="/cart" className="relative">
-            <ShoppingCart size={24} />
+          {isLoggedIn ? (
+            <Link href="/cart" className="relative">
+              <ShoppingCart size={24} />
 
-            <span className="absolute -top-2 -right-2 bg-orange-500 text-xs px-1.5 py-0.5 rounded-full">
-              {totalItems}
-            </span>
-          </Link>
+              <span className="absolute -top-2 -right-2 bg-orange-500 text-xs px-1.5 py-0.5 rounded-full">
+                {totalItems}
+              </span>
+            </Link>
+          ) : null}
 
           {isLoggedIn ? (
             <div className="relative" ref={desktopProfileRef}>
@@ -173,13 +184,15 @@ const Navbar = () => {
             </div>
           ) : null}
 
-          <Link href="/cart" className="relative">
-            <ShoppingCart size={24} />
+          {isLoggedIn ? (
+            <Link href="/cart" className="relative">
+              <ShoppingCart size={24} />
 
-            <span className="absolute -top-2 -right-2 bg-orange-500 text-xs px-1.5 py-0.5 rounded-full">
-              {totalItems}
-            </span>
-          </Link>
+              <span className="absolute -top-2 -right-2 bg-orange-500 text-xs px-1.5 py-0.5 rounded-full">
+                {totalItems}
+              </span>
+            </Link>
+          ) : null}
         </div>
       </div>
     </nav>

@@ -69,7 +69,7 @@ export default function LoginPage() {
         password,
       });
 
-      localStorage.setItem(
+      sessionStorage.setItem(
         "userInfo",
         JSON.stringify(data)
       );

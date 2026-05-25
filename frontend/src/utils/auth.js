@@ -1,7 +1,16 @@
 export function getUserInfo() {
   if (typeof window === "undefined") return null;
 
-  const raw = localStorage.getItem("userInfo");
+  // Keep auth session-scoped: a user should not appear logged in after
+  // closing/reopening the browser unless they login again.
+  // Clear any legacy persisted auth state.
+  try {
+    localStorage.removeItem("userInfo");
+  } catch {
+    // ignore
+  }
+
+  const raw = sessionStorage.getItem("userInfo");
   if (!raw) return null;
 
   try {
@@ -18,4 +27,3 @@ export function getAuthToken() {
 export function isLoggedIn() {
   return Boolean(getAuthToken());
 }
-
