@@ -23,8 +23,6 @@ const EMAIL_REGEX =
 
 export default function LoginPage() {
   const router = useRouter();
-  const [loginMode, setLoginMode] =
-    useState("password");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] =
@@ -46,31 +44,21 @@ export default function LoginPage() {
       next.email = "Enter a valid email";
     }
 
-    if (loginMode === "password") {
-      if (!password) {
-        next.password = "Password is required";
-      } else if (password.length < 6) {
-        next.password =
-          "Password must be at least 6 characters";
-      }
+    if (!password) {
+      next.password = "Password is required";
+    } else if (password.length < 6) {
+      next.password =
+        "Password must be at least 6 characters";
     }
 
     return next;
-  }, [email, password, loginMode]);
+  }, [email, password]);
 
   const isValid = Object.keys(errors).length === 0;
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setTouched((prev) => ({
-      ...prev,
-      email: true,
-      password: loginMode === "password" ? true : prev.password,
-    }));
-    if (loginMode !== "password") {
-      toast("Email OTP is coming soon");
-      return;
-    }
+    setTouched({ email: true, password: true });
     if (!isValid || isLoading) return;
 
     try {
@@ -247,40 +235,6 @@ export default function LoginPage() {
               Enter your credentials to access your dashboard
             </p>
 
-            <div className="mt-7 rounded-2xl bg-slate-100 p-1">
-              <div className="grid grid-cols-2 gap-1">
-                <button
-                  type="button"
-                  onClick={() => setLoginMode("password")}
-                  className={[
-                    "flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition",
-                    loginMode === "password"
-                      ? "bg-white text-slate-900 shadow-sm"
-                      : "text-slate-600 hover:text-slate-900",
-                  ].join(" ")}
-                >
-                  <KeyRound className="h-4 w-4" />
-                  Password
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setLoginMode("otp");
-                    toast("Email OTP is coming soon");
-                  }}
-                  className={[
-                    "flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition",
-                    loginMode === "otp"
-                      ? "bg-white text-slate-900 shadow-sm"
-                      : "text-slate-600 hover:text-slate-900",
-                  ].join(" ")}
-                >
-                  <Mail className="h-4 w-4" />
-                  Email OTP
-                </button>
-              </div>
-            </div>
-
             <form onSubmit={handleLogin} className="mt-8 space-y-5">
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-slate-700">
@@ -311,72 +265,64 @@ export default function LoginPage() {
                 ) : null}
               </div>
 
-              {loginMode === "password" ? (
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between gap-3">
-                    <label className="block text-sm font-medium text-slate-700">
-                      Password
-                    </label>
-                    <button
-                      type="button"
-                      onClick={() => toast("Password reset coming soon")}
-                      className="text-sm font-semibold text-orange-600 hover:text-orange-700 transition"
-                    >
-                      Forgot password?
-                    </button>
-                  </div>
+              <div className="space-y-2">
+                <div className="flex items-center justify-between gap-3">
+                  <label className="block text-sm font-medium text-slate-700">
+                    Password
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => toast("Password reset coming soon")}
+                    className="text-sm font-semibold text-orange-600 hover:text-orange-700 transition"
+                  >
+                    Forgot password?
+                  </button>
+                </div>
 
-                  <div className="relative">
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      placeholder="Enter your password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      onBlur={() =>
-                        setTouched((prev) => ({
-                          ...prev,
-                          password: true,
-                        }))
-                      }
-                      aria-invalid={Boolean(
-                        touched.password && errors.password
-                      )}
-                      className={[
-                        "w-full rounded-xl border bg-white px-4 py-3.5 pl-11 pr-12 text-slate-900 outline-none placeholder:text-slate-400 focus:ring-2 transition",
-                        passwordBorder,
-                      ].join(" ")}
-                    />
-                    <KeyRound className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword((s) => !s)}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 rounded-lg p-2 text-slate-500 transition hover:bg-slate-100 hover:text-slate-700"
-                      aria-label={
-                        showPassword ? "Hide password" : "Show password"
-                      }
-                    >
-                      {showPassword ? (
-                        <EyeOff className="h-4 w-4" />
-                      ) : (
-                        <Eye className="h-4 w-4" />
-                      )}
-                    </button>
-                  </div>
-                  {touched.password && errors.password ? (
-                    <p className="text-sm text-red-600">{errors.password}</p>
-                  ) : null}
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    onBlur={() =>
+                      setTouched((prev) => ({
+                        ...prev,
+                        password: true,
+                      }))
+                    }
+                    aria-invalid={Boolean(touched.password && errors.password)}
+                    className={[
+                      "w-full rounded-xl border bg-white px-4 py-3.5 pl-11 pr-12 text-slate-900 outline-none placeholder:text-slate-400 focus:ring-2 transition",
+                      passwordBorder,
+                    ].join(" ")}
+                  />
+                  <KeyRound className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((s) => !s)}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 rounded-lg p-2 text-slate-500 transition hover:bg-slate-100 hover:text-slate-700"
+                    aria-label={
+                      showPassword ? "Hide password" : "Show password"
+                    }
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
+                  </button>
                 </div>
-              ) : (
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
-                  Email OTP sign-in will be available soon.
-                </div>
-              )}
+                {touched.password && errors.password ? (
+                  <p className="text-sm text-red-600">{errors.password}</p>
+                ) : null}
+              </div>
 
               <button
-                disabled={!isValid || isLoading || loginMode !== "password"}
+                disabled={!isValid || isLoading}
                 className={[
                   "w-full rounded-xl bg-orange-600 py-4 font-semibold text-white transition shadow-sm",
-                  !isValid || isLoading || loginMode !== "password"
+                  !isValid || isLoading
                     ? "opacity-60 cursor-not-allowed"
                     : "hover:bg-orange-700",
                 ].join(" ")}
