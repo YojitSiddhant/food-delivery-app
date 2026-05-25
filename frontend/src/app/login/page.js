@@ -99,9 +99,9 @@ export default function LoginPage() {
       : "border-slate-200 focus:ring-orange-500";
 
   return (
-    <div className="min-h-screen bg-slate-950">
-      <div className="grid min-h-screen grid-cols-1 lg:grid-cols-2">
-        <section className="relative hidden overflow-hidden px-6 py-10 text-white lg:block lg:px-14 lg:py-14">
+    <div className="h-screen overflow-hidden bg-slate-950">
+      <div className="grid h-screen grid-cols-1 lg:grid-cols-2">
+        <section className="relative hidden h-full overflow-hidden px-6 py-10 text-white lg:block lg:px-14 lg:py-14">
           <div className="pointer-events-none absolute inset-0">
             <div className="absolute -top-28 -left-28 h-80 w-80 rounded-full bg-orange-500/25 blur-3xl" />
             <div className="absolute -bottom-32 -right-24 h-96 w-96 rounded-full bg-indigo-500/20 blur-3xl" />
@@ -209,13 +209,13 @@ export default function LoginPage() {
           </div>
         </section>
 
-        <section className="relative flex items-center justify-center bg-white px-6 py-12 lg:px-12">
+        <section className="relative flex h-full items-center justify-center overflow-hidden bg-white px-6 py-0 lg:px-12">
           <div className="pointer-events-none absolute inset-0">
             <div className="absolute -top-24 -right-24 h-72 w-72 rounded-full bg-orange-500/10 blur-3xl" />
             <div className="absolute -bottom-28 -left-24 h-80 w-80 rounded-full bg-slate-900/5 blur-3xl" />
           </div>
 
-          <div className="fade-in-up relative w-full max-w-xl rounded-3xl border border-slate-200 bg-white p-8 shadow-xl sm:p-10">
+          <div className="fade-in-up relative w-full max-w-xl rounded-3xl border border-slate-200 bg-white p-6 shadow-xl sm:p-8">
             <Link
               href="/"
               className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 transition hover:text-slate-900"
@@ -224,7 +224,7 @@ export default function LoginPage() {
               Back to landing
             </Link>
 
-            <div className="mb-8 flex items-center gap-3 lg:hidden">
+            <div className="mb-6 flex items-center gap-3 lg:hidden">
               <div className="grid h-10 w-10 place-items-center rounded-2xl bg-orange-600 text-white">
                 <UtensilsCrossed className="h-5 w-5" />
               </div>
@@ -244,7 +244,7 @@ export default function LoginPage() {
               Enter your credentials to access your dashboard
             </p>
 
-            <form onSubmit={handleLogin} className="mt-8 space-y-5">
+            <form onSubmit={handleLogin} className="mt-6 space-y-4">
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-slate-700">
                   Email Address
@@ -263,7 +263,7 @@ export default function LoginPage() {
                     }
                     aria-invalid={Boolean(touched.email && errors.email)}
                     className={[
-                      "w-full rounded-xl border bg-white px-4 py-3.5 pl-11 text-slate-900 outline-none placeholder:text-slate-400 focus:ring-2 transition",
+                      "w-full rounded-xl border bg-white px-4 py-3 pl-11 text-slate-900 outline-none placeholder:text-slate-400 focus:ring-2 transition",
                       emailBorder,
                     ].join(" ")}
                   />
@@ -302,7 +302,7 @@ export default function LoginPage() {
                     }
                     aria-invalid={Boolean(touched.password && errors.password)}
                     className={[
-                      "w-full rounded-xl border bg-white px-4 py-3.5 pl-11 pr-12 text-slate-900 outline-none placeholder:text-slate-400 focus:ring-2 transition",
+                      "w-full rounded-xl border bg-white px-4 py-3 pl-11 pr-12 text-slate-900 outline-none placeholder:text-slate-400 focus:ring-2 transition",
                       passwordBorder,
                     ].join(" ")}
                   />
@@ -330,7 +330,7 @@ export default function LoginPage() {
               <button
                 disabled={!isValid || isLoading}
                 className={[
-                  "w-full rounded-xl bg-orange-600 py-4 font-semibold text-white transition shadow-sm",
+                  "w-full rounded-xl bg-orange-600 py-3.5 font-semibold text-white transition shadow-sm",
                   !isValid || isLoading
                     ? "opacity-60 cursor-not-allowed"
                     : "hover:bg-orange-700",
@@ -349,7 +349,7 @@ export default function LoginPage() {
               </button>
             </form>
 
-            <div className="mt-8 flex items-center justify-between gap-3 border-t border-slate-200 pt-6 text-sm">
+            <div className="mt-6 flex items-center justify-between gap-3 border-t border-slate-200 pt-5 text-sm">
               <p className="text-slate-600">
                 Don&apos;t have an account?{" "}
                 <Link
