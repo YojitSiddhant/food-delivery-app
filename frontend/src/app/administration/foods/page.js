@@ -50,7 +50,7 @@ export default function AdminFoodsPage() {
       <Navbar />
 
       <div className="max-w-6xl mx-auto px-6 py-12">
-        <h1 className="text-4xl font-bold mb-10">
+        <h1 className="text-3xl font-bold mb-8 sm:text-4xl sm:mb-10">
           Food Management
         </h1>
 
@@ -93,7 +93,7 @@ export default function AdminFoodsPage() {
           {foods.map((food) => (
             <div
               key={food.id}
-              className="bg-white p-5 rounded-2xl shadow-md flex items-center justify-between"
+              className="bg-white p-5 rounded-2xl shadow-md flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center"
             >
               <div>
                 <h2 className="text-2xl font-bold">
@@ -109,7 +109,7 @@ export default function AdminFoodsPage() {
                 onClick={() =>
                   deleteFood(food.id)
                 }
-                className="bg-red-500 text-white px-5 py-2 rounded-lg hover:bg-red-600 transition"
+                className="w-full bg-red-500 text-white px-5 py-2 rounded-lg hover:bg-red-600 transition sm:w-auto"
               >
                 Delete
               </button>

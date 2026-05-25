@@ -8,7 +8,7 @@ export default function AdminDashboard() {
       <Navbar />
 
       <div className="max-w-7xl mx-auto px-6 py-12">
-        <h1 className="text-4xl font-bold mb-10">
+        <h1 className="text-3xl font-bold mb-8 sm:text-4xl sm:mb-10">
           Admin Dashboard
         </h1>
 
@@ -18,7 +18,7 @@ export default function AdminDashboard() {
               Total Orders
             </h2>
 
-            <p className="text-5xl font-bold mt-4">
+            <p className="mt-4 text-4xl font-bold sm:text-5xl">
               24
             </p>
           </div>
@@ -28,7 +28,7 @@ export default function AdminDashboard() {
               Total Foods
             </h2>
 
-            <p className="text-5xl font-bold mt-4">
+            <p className="mt-4 text-4xl font-bold sm:text-5xl">
               12
             </p>
           </div>
@@ -38,7 +38,7 @@ export default function AdminDashboard() {
               Revenue
             </h2>
 
-            <p className="text-5xl font-bold mt-4">
+            <p className="mt-4 text-4xl font-bold sm:text-5xl">
               ₹12K
             </p>
           </div>

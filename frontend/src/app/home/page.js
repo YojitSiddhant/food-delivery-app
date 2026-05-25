@@ -39,12 +39,12 @@ export default function HomePage() {
     <div className="min-h-screen bg-gray-100">
       <Navbar />
 
-      <section className="bg-black text-white py-20 px-6 text-center">
-        <h1 className="text-5xl font-bold">
+      <section className="bg-black text-white px-6 py-12 text-center sm:py-16 lg:py-20">
+        <h1 className="text-3xl font-bold sm:text-4xl lg:text-5xl">
           Delicious Food Delivered Fast
         </h1>
 
-        <p className="mt-4 text-lg text-gray-300">
+        <p className="mt-4 text-base text-gray-300 sm:text-lg">
           Order your favorite meals anytime, anywhere.
         </p>
       </section>
@@ -72,4 +72,3 @@ export default function HomePage() {
     </div>
   );
 }
-

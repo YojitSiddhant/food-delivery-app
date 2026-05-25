@@ -19,7 +19,7 @@ export default function CartPage() {
       <Navbar />
 
       <div className="max-w-6xl mx-auto px-6 py-12">
-        <h1 className="text-4xl font-bold mb-10">
+        <h1 className="text-3xl font-bold mb-8 sm:text-4xl sm:mb-10">
           Your Cart
         </h1>
 
@@ -39,12 +39,12 @@ export default function CartPage() {
               {cartItems.map((item) => (
                 <div
                   key={item.id}
-                  className="bg-white p-5 rounded-2xl shadow-md flex items-center gap-5"
+                  className="bg-white p-5 rounded-2xl shadow-md flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-5"
                 >
                   <img
                     src={item.image}
                     alt={item.name}
-                    className="w-28 h-28 object-cover rounded-xl"
+                    className="h-44 w-full rounded-xl object-cover sm:h-28 sm:w-28"
                   />
 
                   <div className="flex-1">
@@ -65,7 +65,7 @@ export default function CartPage() {
                     onClick={() =>
                       removeFromCart(item.id)
                     }
-                    className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
+                    className="w-full bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition sm:w-auto"
                   >
                     Remove
                   </button>
