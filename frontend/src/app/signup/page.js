@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import {
+  ArrowLeft,
   BarChart3,
   Clock,
   Eye,
@@ -291,6 +292,14 @@ export default function SignupPage() {
           </div>
 
           <div className="fade-in-up relative w-full max-w-xl rounded-3xl border border-slate-200 bg-white p-8 shadow-xl sm:p-10">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 transition hover:text-slate-900"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Back to landing
+            </Link>
+
             <div className="mb-8 flex items-center gap-3 lg:hidden">
               <div className="grid h-10 w-10 place-items-center rounded-2xl bg-orange-600 text-white">
                 <UtensilsCrossed className="h-5 w-5" />
